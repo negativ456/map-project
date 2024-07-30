@@ -8,6 +8,10 @@ import L, { Map, Polygon, Marker, type LatLngTuple } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import { districts } from '@/consts/districts'
 import type { District } from '@/types/types'
+import mapImg from "../assets/map-high.png"
+import point from "../assets/map-point.png"
+import pointBlue from "../assets/map-point-blue.png"
+import mapPointActive from "../assets/map-point-active.png"
 
 defineProps({
   mode: {
@@ -23,7 +27,7 @@ const osmLayer = ref<L.TileLayer | null>(null);
 
 const createMarkerIcon = (active: boolean) => {
   return L.icon({
-    iconUrl: active ? `/src/assets/map-point-blue.png` : `/src/assets/map-point.png`, // Замените на путь к вашим иконкам
+    iconUrl: active ? pointBlue : point, // Замените на путь к вашим иконкам
     iconSize: [31, 31],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -40,10 +44,9 @@ onMounted(() => {
     });
 
     const bounds = [[0, 0], [1062, 2255]] as LatLngTuple[];
-    const imageUrl = '/src/assets/map-high.png';
 
 
-    imageOverlay.value = L.imageOverlay(imageUrl, bounds).addTo(map);
+    imageOverlay.value = L.imageOverlay(mapImg, bounds).addTo(map);
     osmLayer.value = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
     });
@@ -132,7 +135,7 @@ onMounted(() => {
           if (activeDistrict.value?.district.id === district.id) {
 
             marker.setIcon(L.icon({
-              iconUrl: `/src/assets/map-point-active.png`,
+              iconUrl: mapPointActive,
               iconSize: [34, 56],
               iconAnchor: [12, 41],
               popupAnchor: [1, -34],
